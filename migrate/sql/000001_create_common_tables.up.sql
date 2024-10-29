@@ -22,7 +22,7 @@ create table accounts (
     updated_at timestamp default now(),
     primary key (user_id, id),
     unique(user_id, name),
-    constraint fk_accounts_users foreign key(user_id) references users(id)
+    constraint fk_accounts_users foreign key(user_id) references users(id
 );
 
 create table projects (
