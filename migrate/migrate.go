@@ -14,7 +14,8 @@ func Up() {
 	if err != nil {
 		panic(fmt.Errorf("unable to create 'migrate' instance: %w", err))
 	}
-	if err = m.Up(); err != migrate.ErrNoChange {
+	err = m.Up()
+	if err != nil && err != migrate.ErrNoChange {
 		panic(fmt.Errorf("unable to apply migration: %w", err))
 	}
 }
