@@ -1,20 +1,22 @@
 package main
 
 import (
-	"github.com/golang-migrate/migrate/v4"
-    _ "github.com/golang-migrate/migrate/v4/database/postgres"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"flag"
+	"fmt"
+
+	"github.com/plutvis/plutvis-service/migrate"
 )
 
 func main() {
-	m, err := migrate.New(
-        "file://db/migrations",
-        "postgres://postgres:password@localhost:5432/postgres?sslmode=disable")
-	if err != nil {
-		panic(err)
-	}
-	if err = m.Up(); err != nil {
-		panic(err)
-	}
+	var migrateSchemaOnly bool
+	flag.BoolVar(&migrateSchemaOnly, "migrate-schema-only", false, "The app will only migrate SQL schema and then quit.")
+	flag.Parse()
 
+	migrate.Up()
+	fmt.Println("Migration has been applied")
+	if migrateSchemaOnly {
+		fmt.Println("Quit since --migrate-schema-only is specified")
+		return
+	}
+	
 }
